@@ -6,8 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint",
-    "seed": "node --env-file=.env.local scripts/seed-firestore.mjs"
+    "lint": "eslint"
   },
   "dependencies": {
     "firebase": "^12.17.1",
@@ -29,7 +28,6 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.0",
-    "tailwindcss": "^4",
     "typescript": "^5"
   }
 }
