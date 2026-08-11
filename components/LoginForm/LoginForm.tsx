@@ -2,9 +2,13 @@
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase/client";
+import { useLoadingStore } from "@/store/blogStore";
 
 export default function LoginForm(email: string, password: string) {
+  const setLoading = useLoadingStore((state) => state.setLoading);
+
   const handleLogin = async () => {
+    setLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
         auth,
@@ -20,6 +24,7 @@ export default function LoginForm(email: string, password: string) {
     } catch (error) {
       console.error("Error logging in:", error);
     } finally {
+      setLoading(false);
       close();
     }
   };

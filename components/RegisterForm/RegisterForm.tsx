@@ -2,13 +2,17 @@
 
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "../../lib/firebase/client";
+import { useLoadingStore } from "@/store/blogStore";
 
 export default function RegisterForm(
   email: string,
   password: string,
   name: string,
 ) {
+  const setLoading = useLoadingStore((state) => state.setLoading);
+
   const handleRegister = async () => {
+    setLoading(true);
     try {
       const userCredential = await createUserWithEmailAndPassword(
         auth,
@@ -26,6 +30,7 @@ export default function RegisterForm(
     } catch (error) {
       console.error("Error registering:", error);
     } finally {
+      setLoading(false);
       close();
     }
   };
