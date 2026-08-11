@@ -11,7 +11,7 @@ export async function getComments(postId: string): Promise<Comment[]> {
   return data.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Comment);
 }
 
-export async function createComment(postId: string, data: Comment) {
+export async function createComment(postId: string, data: Omit<Comment, "id">) {
   const comment = await adminDb
     .collection("posts")
     .doc(postId)
