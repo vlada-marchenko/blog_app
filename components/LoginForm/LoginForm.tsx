@@ -2,12 +2,24 @@
 
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { auth } from "../../lib/firebase/client";
-import { useLoadingStore } from "@/store/blogStore";
+import { useBlogStore } from "@/store/blogStore";
+import Loader from "../Loader/Loader";
+import { useForm } from "react-hook-form";
 
-export default function LoginForm(email: string, password: string) {
-  const setLoading = useLoadingStore((state) => state.setLoading);
+type LoginFormValues = {
+  email: string;
+  password: string;
+};
 
-  const handleLogin = async () => {
+type LoginFormProps = {
+  onClose: () => void;
+};
+
+export default function LoginForm({ onClose }: LoginFormProps) {
+  const isLoading = useBlogStore((state) => state.isLoading);
+  const setLoading = useBlogStore((state) => state.setLoading);
+
+  const handleLogin = async ({ email, password }: LoginFormValues) => {
     setLoading(true);
     try {
       const userCredential = await signInWithEmailAndPassword(
@@ -25,14 +37,37 @@ export default function LoginForm(email: string, password: string) {
       console.error("Error logging in:", error);
     } finally {
       setLoading(false);
-      close();
+      onClose();
     }
   };
+
+  const { register, handleSubmit } = useForm<LoginFormValues>();
+
+  if (isLoading) return <Loader />;
 
   return (
     <div>
       <h1>Login Form</h1>
-      <button onClick={handleLogin}>Login</button>
+      <form onSubmit={handleSubmit(handleLogin)}>
+        <label htmlFor="email">
+          Email
+          <input
+            {...register("email")}
+            type="email"
+            placeholder="Enter your email"
+          />
+        </label>
+        <label htmlFor="pass">
+          Password
+          <input
+            {...register("password")}
+            key="pass"
+            type="password"
+            placeholder="Create a password"
+          />
+        </label>
+        <button type="submit">Log in</button>
+      </form>
     </div>
   );
 }
