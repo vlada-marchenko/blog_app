@@ -5,6 +5,7 @@ import { auth } from "../../lib/firebase/client";
 import { useBlogStore } from "@/store/blogStore";
 import Loader from "../Loader/Loader";
 import { useForm } from "react-hook-form";
+import css from "./RegisterForm.module.css";
 
 type RegisterFormValues = {
   email: string;
@@ -53,36 +54,41 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
   if (isLoading) return <Loader />;
 
   return (
-    <div>
-      <h1>Register Form</h1>
-      <form onSubmit={handleSubmit(handleRegister)}>
-        <label htmlFor="name">
+    <div className={css.register}>
+      <h1 className={css.title}>Register Form</h1>
+      <form onSubmit={handleSubmit(handleRegister)} className={css.form}>
+        <label htmlFor="name" className={css.label}>
           Name
           <input
             {...register("name")}
             key="name"
             type="text"
             placeholder="Enter your name"
+            className={css.input}
           />
         </label>
-        <label htmlFor="email">
+        <label htmlFor="email" className={css.label}>
           Email
           <input
             {...register("email")}
             type="email"
             placeholder="Enter your email"
+            className={css.input}
           />
         </label>
-        <label htmlFor="pass">
+        <label htmlFor="pass" className={css.label}>
           Password
           <input
             {...register("password")}
             key="pass"
             type="password"
             placeholder="Create a password"
+            className={css.input}
           />
         </label>
-        <button type="submit">Register</button>
+        <button type="submit" className={css.button}>
+          Register
+        </button>
       </form>
     </div>
   );

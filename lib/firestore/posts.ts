@@ -1,14 +1,24 @@
 import type { Post } from "../../types/post";
 import { adminDb } from "../firebase/admin";
+import { toISOString } from "./utils";
+
+function toPost(id: string, data: FirebaseFirestore.DocumentData): Post {
+  return {
+    id,
+    ...data,
+    createdAt: toISOString(data.createdAt),
+    updatedAt: toISOString(data.updatedAt),
+  } as Post;
+}
 
 export async function getPosts(): Promise<Post[]> {
   const data = await adminDb.collection("posts").get();
-  return data.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Post);
+  return data.docs.map((doc) => toPost(doc.id, doc.data()));
 }
 
 export async function getPost(id: string): Promise<Post | null> {
   const doc = await adminDb.collection("posts").doc(id).get();
-  return doc.exists ? ({ id: doc.id, ...doc.data() } as Post) : null;
+  return doc.exists ? toPost(doc.id, doc.data()!) : null;
 }
 
 export async function createPost(data: Omit<Post, "id">) {

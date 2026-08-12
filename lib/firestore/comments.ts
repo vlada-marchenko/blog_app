@@ -1,5 +1,6 @@
 import type { Comment } from "../../types/comment";
 import { adminDb } from "../firebase/admin";
+import { toISOString } from "./utils";
 
 export async function getComments(postId: string): Promise<Comment[]> {
   const data = await adminDb
@@ -8,7 +9,14 @@ export async function getComments(postId: string): Promise<Comment[]> {
     .collection("comments")
     .get();
 
-  return data.docs.map((doc) => ({ id: doc.id, ...doc.data() }) as Comment);
+  return data.docs.map(
+    (doc) =>
+      ({
+        id: doc.id,
+        ...doc.data(),
+        createdAt: toISOString(doc.data().createdAt),
+      }) as Comment,
+  );
 }
 
 export async function createComment(postId: string, data: Omit<Comment, "id">) {

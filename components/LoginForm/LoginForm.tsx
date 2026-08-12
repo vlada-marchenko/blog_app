@@ -5,6 +5,7 @@ import { auth } from "../../lib/firebase/client";
 import { useBlogStore } from "@/store/blogStore";
 import Loader from "../Loader/Loader";
 import { useForm } from "react-hook-form";
+import css from "./LoginForm.module.css";
 
 type LoginFormValues = {
   email: string;
@@ -46,27 +47,31 @@ export default function LoginForm({ onClose }: LoginFormProps) {
   if (isLoading) return <Loader />;
 
   return (
-    <div>
-      <h1>Login Form</h1>
-      <form onSubmit={handleSubmit(handleLogin)}>
-        <label htmlFor="email">
+    <div className={css.login}>
+      <h1 className={css.title}>Login Form</h1>
+      <form onSubmit={handleSubmit(handleLogin)} className={css.form}>
+        <label htmlFor="email" className={css.label}>
           Email
           <input
             {...register("email")}
             type="email"
             placeholder="Enter your email"
+            className={css.input}
           />
         </label>
-        <label htmlFor="pass">
+        <label htmlFor="pass" className={css.label}>
           Password
           <input
             {...register("password")}
             key="pass"
             type="password"
             placeholder="Create a password"
+            className={css.input}
           />
         </label>
-        <button type="submit">Log in</button>
+        <button type="submit" className={css.button}>
+          Log in
+        </button>
       </form>
     </div>
   );

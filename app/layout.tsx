@@ -1,21 +1,18 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
 import { Viewport } from "next";
+import Header from "@/components/Header/Header";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"], // 600 is what your snippet needs
 });
 
 export const metadata: Metadata = {
-  title: "Blog App",
+  title: "Blog.",
   description: "A place where you can share your thoughts",
   keywords: [
     "blog",
@@ -24,7 +21,7 @@ export const metadata: Metadata = {
     "expressing opinion",
   ],
   openGraph: {
-    title: "Blog App",
+    title: "Blog.",
     description: "A place where you can share your thoughts",
     siteName: "Blog App",
     url: "", // add!!!
@@ -42,9 +39,14 @@ export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body className={geistMono.variable}>
-        <AuthProvider>{children}</AuthProvider>
+    <html lang="en" className={inter.variable}>
+      <body className={inter.variable}>
+        <AuthProvider>
+          <div className="layout-wrapper">
+            <Header />
+            {children}
+          </div>
+        </AuthProvider>
       </body>
     </html>
   );

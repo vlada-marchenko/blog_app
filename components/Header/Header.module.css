@@ -1,0 +1,164 @@
+.header {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 16px 0;
+}
+
+.icon {
+  font-style: normal;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 26px;
+  color: #4f46e5;
+}
+
+.actionButtons {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+}
+
+.authButtons {
+  display: flex;
+  flex-direction: row;
+}
+
+.login {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  padding: 8px 12px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 17px;
+  color: #a1a1aa;
+  cursor: pointer;
+}
+
+.login:hover,
+.login:active {
+  color: #4f46e5;
+}
+
+.register {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background-color: transparent;
+  border: 1px solid #3f3f46;
+  border-radius: 8px;
+  padding: 8px 12px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 17px;
+  color: #a1a1aa;
+  cursor: pointer;
+}
+
+.register:hover,
+.register:active {
+  color: #4f46e5;
+  border-color: #4f46e5;
+}
+
+.createPost {
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #4f46e5;
+  border-color: #4f46e5;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+.createPost:hover,
+.createPost:active {
+  background-color: #4f56e1;
+  border-color: #4f56e1;
+}
+
+.userCont {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 8px;
+}
+
+.userHi {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  border: none;
+  background-color: transparent;
+  padding: 8px 12px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 17px;
+  color: #a1a1aa;
+}
+
+.logout {
+  width: fit-content;
+  padding: 8px 12px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  background: #4f46e5;
+  border-color: #4f46e5;
+  border-radius: 8px;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 17px;
+  color: #ffffff;
+  cursor: pointer;
+}
+
+@media (min-width: 768px) {
+  .header {
+    flex-wrap: nowrap;
+    gap: 0;
+    padding: 30px 0;
+  }
+
+  .icon {
+    font-size: 30px;
+    line-height: 24px;
+  }
+
+  .actionButtons {
+    flex-wrap: nowrap;
+    gap: 20px;
+  }
+
+  .login,
+  .register,
+  .createPost,
+  .userHi,
+  .logout {
+    padding: 10px 16px;
+    font-size: 14px;
+  }
+
+  .userCont {
+    gap: 10px;
+  }
+}
