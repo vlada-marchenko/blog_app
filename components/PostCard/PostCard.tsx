@@ -6,6 +6,7 @@ import type { Post } from "@/types/post";
 import { useAuth } from "../AuthProvider/AuthProvider";
 import { formatDate } from "@/lib/formatDate";
 import CommentForm from "@/components/CommentForm/CommentForm";
+import CommentList from "../CommentList/CommentList";
 
 type PostCardProps = {
   post: Post;
@@ -22,7 +23,7 @@ export default function PostCard({
 }: PostCardProps) {
   const user = useAuth();
   const owner = user?.uid === post.authorId;
-  const { data: comments, mutate } = useComments(post.id);
+  const { mutate } = useComments(post.id);
 
   return (
     <div className={css.card}>
@@ -74,20 +75,8 @@ export default function PostCard({
       <p className={css.description}>{post.content}</p>
       <div className={css.comments}>
         <span className={css.count}>Comments ({post.commentCount})</span>
-        <CommentForm postId={post.id} onPosted={mutate} />
-        <div className={css.conteiner}>
-          {comments?.map((comment) => (
-            <div key={comment.id} className={css.commentCont}>
-              <div className={css.info}>
-                <span className={css.text}>{comment.authorName}</span>
-                <span className={css.text}>
-                  {formatDate(comment.createdAt)}
-                </span>
-              </div>
-              <p className={css.content}>{comment.content}</p>
-            </div>
-          ))}
-        </div>
+        {user && <CommentForm postId={post.id} onPosted={mutate} />}
+        <CommentList postId={post.id} />
       </div>
     </div>
   );

@@ -5,19 +5,19 @@ import { createPortal } from "react-dom";
 import css from "./AuthModal.module.css";
 
 export default function AuthModal() {
-  const closeModal = useBlogStore((state) => state.close);
-  const isOpenModal = useBlogStore((state) => state.isOpenModal);
+  const closeAuthModal = useBlogStore((state) => state.close);
+  const isOpenAuthModal = useBlogStore((state) => state.isOpenAuthModal);
   const modeModal = useBlogStore((state) => state.mode);
 
-  if (!isOpenModal) return null;
+  if (!isOpenAuthModal) return null;
 
   return createPortal(
-    <div onClick={closeModal} className={css.overlay}>
+    <div onClick={closeAuthModal} className={css.overlay}>
       <div onClick={(e) => e.stopPropagation()} className={css.modal}>
         <button
           type="button"
           className={css.closeButton}
-          onClick={closeModal}
+          onClick={closeAuthModal}
           aria-label="Close"
         >
           <svg
@@ -36,9 +36,9 @@ export default function AuthModal() {
           </svg>
         </button>
         {modeModal === "login" ? (
-          <LoginForm onClose={closeModal} />
+          <LoginForm onClose={closeAuthModal} />
         ) : (
-          <RegisterForm onClose={closeModal} />
+          <RegisterForm onClose={closeAuthModal} />
         )}
       </div>
     </div>,

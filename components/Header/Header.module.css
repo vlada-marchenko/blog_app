@@ -10,11 +10,16 @@
 }
 
 .icon {
+  border: none;
+  background: transparent;
+  padding: 0;
+  font-family: inherit;
   font-style: normal;
   font-weight: 700;
   font-size: 22px;
   line-height: 26px;
   color: #4f46e5;
+  cursor: pointer;
 }
 
 .actionButtons {
@@ -28,29 +33,10 @@
 .authButtons {
   display: flex;
   flex-direction: row;
+  gap: 10px;
 }
 
 .login {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border: none;
-  background-color: transparent;
-  padding: 8px 12px;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 13px;
-  line-height: 17px;
-  color: #a1a1aa;
-  cursor: pointer;
-}
-
-.login:hover,
-.login:active {
-  color: #4f46e5;
-}
-
-.register {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -66,12 +52,15 @@
   cursor: pointer;
 }
 
-.register:hover,
-.register:active {
+.login:hover,
+.login:active,
+.logout:hover,
+.logout:active {
   color: #4f46e5;
   border-color: #4f46e5;
 }
 
+.register,
 .createPost {
   padding: 8px 12px;
   display: flex;
@@ -89,7 +78,9 @@
 }
 
 .createPost:hover,
-.createPost:active {
+.createPost:active,
+.register:hover,
+.register:active {
   background-color: #4f56e1;
   border-color: #4f56e1;
 }
@@ -116,19 +107,18 @@
 }
 
 .logout {
-  width: fit-content;
-  padding: 8px 12px;
   display: flex;
   flex-direction: row;
   align-items: center;
-  background: #4f46e5;
-  border: none;
+  background-color: transparent;
+  border: 1px solid #3f3f46;
   border-radius: 8px;
+  padding: 8px 12px;
   font-style: normal;
   font-weight: 600;
   font-size: 13px;
   line-height: 17px;
-  color: #ffffff;
+  color: #a1a1aa;
   cursor: pointer;
 }
 

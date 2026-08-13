@@ -39,6 +39,7 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
 
       await fetch("/api/auth/session", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idToken }),
       });
     } catch (error) {

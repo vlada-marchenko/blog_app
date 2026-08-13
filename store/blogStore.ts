@@ -6,12 +6,15 @@ interface Blog {
   setLoading: (isLoading: boolean) => void;
   user: User | null;
   setUser: (user: User | null) => void;
-  isOpenModal: boolean;
+  isOpenAuthModal: boolean;
   mode: "login" | "register";
   open: (mode: "login" | "register") => void;
   close: () => void;
   selectedId: string | null;
   setSelectedId: (selectedId: string | null) => void;
+  isOpenModal: boolean;
+  openModal: () => void;
+  closeModal: () => void;
 }
 
 export const useBlogStore = create<Blog>((set) => ({
@@ -19,10 +22,13 @@ export const useBlogStore = create<Blog>((set) => ({
   setLoading: (isLoading) => set({ isLoading }),
   user: null,
   setUser: (user) => set({ user }),
-  isOpenModal: false,
+  isOpenAuthModal: false,
   mode: "login",
-  open: (mode) => set({ isOpenModal: true, mode }),
-  close: () => set({ isOpenModal: false }),
+  open: (mode) => set({ isOpenAuthModal: true, mode }),
+  close: () => set({ isOpenAuthModal: false }),
   selectedId: null,
   setSelectedId: (selectedId) => set({ selectedId }),
+  isOpenModal: false,
+  openModal: () => set({ isOpenModal: true }),
+  closeModal: () => set({ isOpenModal: false }),
 }));

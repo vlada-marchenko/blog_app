@@ -25,6 +25,7 @@ export default function CommentForm({ postId, onPosted }: CommentFormProps) {
     try {
       const res = await fetch(`/api/posts/${postId}/comments`, {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ content }),
       });
       if (res.ok) {
@@ -47,7 +48,7 @@ export default function CommentForm({ postId, onPosted }: CommentFormProps) {
         placeholder="Add a comment"
         className={css.input}
       />
-      <button type="button" className={css.button}>
+      <button type="submit" className={css.button}>
         Post a comment
       </button>
     </form>

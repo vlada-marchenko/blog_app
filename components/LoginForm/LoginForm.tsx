@@ -32,6 +32,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
 
       await fetch("/api/auth/session", {
         method: "POST",
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idToken }),
       });
     } catch (error) {
