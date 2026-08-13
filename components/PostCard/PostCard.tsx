@@ -5,6 +5,7 @@ import { useComments } from "@/hooks/useComments";
 import type { Post } from "@/types/post";
 import { useAuth } from "../AuthProvider/AuthProvider";
 import { formatDate } from "@/lib/formatDate";
+import CommentForm from "@/components/CommentForm/CommentForm";
 
 type PostCardProps = {
   post: Post;
@@ -21,7 +22,7 @@ export default function PostCard({
 }: PostCardProps) {
   const user = useAuth();
   const owner = user?.uid === post.authorId;
-  const { data: comments } = useComments(post.id);
+  const { data: comments, mutate } = useComments(post.id);
 
   return (
     <div className={css.card}>
@@ -56,37 +57,24 @@ export default function PostCard({
         ))}
       </div>
       <h3 className={css.title}>{post.title}</h3>
-      <div className={css.cont}>
-        <div className={css.name}>
-          <span className={css.text}>{post.authorName}</span>
-          <span className={css.text}>{formatDate(post.createdAt)}</span>
-        </div>
-        {owner && (
-          <div className={css.buttons}>
-            <button
-              className={css.edit}
-              onClick={(e) => {
-                (e.stopPropagation(), onEdit(post.id));
-              }}
-            >
-              Edit
-            </button>
-            <button
-              className={css.delete}
-              onClick={(e) => {
-                (e.stopPropagation(), onDelete(post.id));
-              }}
-            >
-              Delete
-            </button>
-          </div>
-        )}
+      <div className={css.name}>
+        <span className={css.text}>{post.authorName}</span>
+        <span className={css.text}>{formatDate(post.createdAt)}</span>
       </div>
+      {owner && (
+        <div className={css.buttons}>
+          <button className={css.edit} onClick={() => onEdit(post.id)}>
+            Edit
+          </button>
+          <button className={css.delete} onClick={() => onDelete(post.id)}>
+            Delete
+          </button>
+        </div>
+      )}
       <p className={css.description}>{post.content}</p>
       <div className={css.comments}>
-        <span className={css.count}>{post.commentCount} comments</span>
-        <input type="text" placeholder="Add a comment" />
-        <button className={css.button}>Post a comment</button>
+        <span className={css.count}>Comments ({post.commentCount})</span>
+        <CommentForm postId={post.id} onPosted={mutate} />
         <div className={css.conteiner}>
           {comments?.map((comment) => (
             <div key={comment.id} className={css.commentCont}>

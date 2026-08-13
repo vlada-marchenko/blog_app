@@ -19,6 +19,7 @@ export default function Header() {
   return (
     <section className={css.header}>
       <span className={css.icon}>Blog.</span>
+
       {!user ? (
         <div className={css.actionButtons}>
           <div className={css.authButtons}>

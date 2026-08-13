@@ -10,6 +10,8 @@ interface Blog {
   mode: "login" | "register";
   open: (mode: "login" | "register") => void;
   close: () => void;
+  selectedId: string | null;
+  setSelectedId: (selectedId: string | null) => void;
 }
 
 export const useBlogStore = create<Blog>((set) => ({
@@ -21,4 +23,6 @@ export const useBlogStore = create<Blog>((set) => ({
   mode: "login",
   open: (mode) => set({ isOpenModal: true, mode }),
   close: () => set({ isOpenModal: false }),
+  selectedId: null,
+  setSelectedId: (selectedId) => set({ selectedId }),
 }));
