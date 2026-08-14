@@ -5,6 +5,10 @@
 }
 
 .title {
+  color: #f4f4f5;
+  font-size: var(--font-size-title);
+  font-weight: 700;
+  margin-bottom: 16px;
 }
 
 .form {
@@ -19,7 +23,7 @@
   gap: 2px;
   font-style: normal;
   font-weight: 400;
-  font-size: 13px;
+  font-size: var(--font-size-small);
   line-height: 17px;
   color: #a1a1aa;
   cursor: pointer;
@@ -33,6 +37,7 @@
   border: 1px solid #3f3f46;
   background-color: #27272a;
   color: #f4f4f5;
+  font-size: var(--font-size-text);
   transition:
     border-color 0.15s ease,
     background-color 0.15s ease;
@@ -62,7 +67,7 @@
   border-radius: 8px;
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: var(--font-size-small);
   line-height: 17px;
   color: #ffffff;
   cursor: pointer;
@@ -84,18 +89,13 @@
     gap: 16px;
   }
 
-  .label {
-    font-size: 14px;
-  }
-
   .input {
     padding: 9px 12px;
-    font-size: 15px;
   }
 
   .button {
     padding: 12px 20px;
-    font-size: 15px;
+    font-size: var(--font-size-text);
   }
 }
 

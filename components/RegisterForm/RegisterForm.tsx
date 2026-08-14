@@ -6,6 +6,7 @@ import { useBlogStore } from "@/store/blogStore";
 import Loader from "../Loader/Loader";
 import { useForm } from "react-hook-form";
 import css from "./RegisterForm.module.css";
+import { toast } from "sonner";
 
 type RegisterFormValues = {
   email: string;
@@ -44,6 +45,7 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
       });
     } catch (error) {
       console.error("Error registering:", error);
+      toast.error("Failed to register. Try a different email or password.");
     } finally {
       setLoading(false);
       onClose();

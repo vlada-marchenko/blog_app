@@ -7,16 +7,23 @@ import PostModal from "../PostModal/PostModal";
 import { useAuth } from "../AuthProvider/AuthProvider";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase/client";
+import { toast } from "sonner";
+import { usePosts } from "@/hooks/usePosts";
 
 export default function Header() {
   const user = useAuth();
   const openAuthModal = useBlogStore((state) => state.open);
   const openModal = useBlogStore((state) => state.openModal);
   const setSelectedId = useBlogStore((state) => state.setSelectedId);
+  const { mutate } = usePosts();
 
   async function handleLogout() {
-    await signOut(auth);
-    await fetch("/api/auth/session", { method: "DELETE" });
+    try {
+      await signOut(auth);
+      await fetch("/api/auth/session", { method: "DELETE" });
+    } catch (err) {
+      console.error("Error logging out:", err);
+    }
   }
 
   return (
@@ -64,7 +71,7 @@ export default function Header() {
         </div>
       )}
       <AuthModal />
-      <PostModal />
+      <PostModal onPosted={mutate} />
     </section>
   );
 }

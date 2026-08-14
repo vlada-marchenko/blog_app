@@ -1,43 +1,52 @@
 "use client";
 
-import css from "./PostModal.module.css";
-import { useForm } from "react-hook-form";
+import css from "./EditModal.module.css";
 import { useBlogStore } from "@/store/blogStore";
-import Loader from "../Loader/Loader";
+import { useForm } from "react-hook-form";
 import { createPortal } from "react-dom";
+import Loader from "@/components/Loader/Loader";
+import { Post } from "@/types/post";
 import { toast } from "sonner";
 
-type PostModalValues = {
+type EditModalValues = {
   title: string;
   excerpt: string;
   content: string;
   tags: string;
 };
 
-type PostModalProps = {
-  onPosted?: () => void;
+type EditModalProps = {
+  post: Post;
+  onEdit?: () => void;
 };
 
-export default function PostModal({ onPosted }: PostModalProps) {
-  const { register, handleSubmit, reset } = useForm<PostModalValues>();
+export default function EditModal({ onEdit, post }: EditModalProps) {
+  const { register, handleSubmit, reset } = useForm<EditModalValues>({
+    defaultValues: {
+      title: post.title,
+      excerpt: post.excerpt,
+      content: post.content,
+      tags: post.tags.join(","),
+    },
+  });
   const isLoading = useBlogStore((state) => state.isLoading);
   const setLoading = useBlogStore((state) => state.setLoading);
-  const closeModal = useBlogStore((state) => state.closeModal);
-  const isOpenModal = useBlogStore((state) => state.isOpenModal);
+  const closeEditModal = useBlogStore((state) => state.closeEditModal);
+  const isOpenEditModal = useBlogStore((state) => state.isOpenEditModal);
 
-  if (!isOpenModal) return null;
+  if (!isOpenEditModal) return null;
 
-  const handlePost = async ({
+  const handleEdit = async ({
     title,
     excerpt,
     content,
     tags,
-  }: PostModalValues) => {
+  }: EditModalValues) => {
     setLoading(true);
 
     try {
-      const res = await fetch(`/api/posts`, {
-        method: "POST",
+      const res = await fetch(`/api/posts/${post.id}`, {
+        method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           title,
@@ -50,16 +59,16 @@ export default function PostModal({ onPosted }: PostModalProps) {
         }),
       });
       if (res.ok) {
-        onPosted?.();
+        onEdit?.();
         reset();
-        closeModal();
-        toast.success("Post created!");
+        closeEditModal();
+        toast.success("Post updated!");
       } else {
-        toast.error("Failed to create post. Check your input.");
+        toast.error("Failed to save changes. Check your input.");
       }
     } catch (err) {
       console.error("Error", err);
-      toast.error("Failed to create post.");
+      toast.error("Failed to save changes.");
     } finally {
       setLoading(false);
     }
@@ -68,12 +77,12 @@ export default function PostModal({ onPosted }: PostModalProps) {
   if (isLoading) return <Loader />;
 
   return createPortal(
-    <div onClick={closeModal} className={css.overlay}>
+    <div onClick={closeEditModal} className={css.overlay}>
       <div onClick={(e) => e.stopPropagation()} className={css.modal}>
         <button
           type="button"
           className={css.closeButton}
-          onClick={closeModal}
+          onClick={closeEditModal}
           aria-label="Close"
         >
           <svg
@@ -91,8 +100,8 @@ export default function PostModal({ onPosted }: PostModalProps) {
             />
           </svg>
         </button>
-        <h3 className={css.title}>Create new post</h3>
-        <form onSubmit={handleSubmit(handlePost)} className={css.form}>
+        <h3 className={css.title}>Edit post</h3>
+        <form onSubmit={handleSubmit(handleEdit)} className={css.form}>
           <input
             type="text"
             {...register("tags")}
@@ -116,7 +125,7 @@ export default function PostModal({ onPosted }: PostModalProps) {
             className={`${css.input} ${css.content}`}
           />
           <button type="submit" className={css.button}>
-            Create a post
+            Save changes
           </button>
         </form>
       </div>

@@ -6,6 +6,7 @@ import { useBlogStore } from "@/store/blogStore";
 import Loader from "../Loader/Loader";
 import { useForm } from "react-hook-form";
 import css from "./LoginForm.module.css";
+import { toast } from "sonner";
 
 type LoginFormValues = {
   email: string;
@@ -37,6 +38,7 @@ export default function LoginForm({ onClose }: LoginFormProps) {
       });
     } catch (error) {
       console.error("Error logging in:", error);
+      toast.error("Failed to log in. Check your email and password.");
     } finally {
       setLoading(false);
       onClose();

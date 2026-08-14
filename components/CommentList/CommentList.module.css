@@ -15,7 +15,7 @@
 
 .text {
   color: #a1a1aa;
-  font-size: 13px;
+  font-size: var(--font-size-small);
 }
 
 .info {
@@ -26,12 +26,12 @@
 
 .count {
   color: #a1a1aa;
-  font-size: 20px;
+  font-size: var(--font-size-title);
   font-weight: 600;
 }
 
 .content {
   color: #f4f4f5;
-  font-size: 14px;
+  font-size: var(--font-size-text);
   line-height: 1.5;
 }

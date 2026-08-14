@@ -16,7 +16,7 @@
   font-family: inherit;
   font-style: normal;
   font-weight: 700;
-  font-size: 22px;
+  font-size: var(--font-size-title);
   line-height: 26px;
   color: #4f46e5;
   cursor: pointer;
@@ -46,7 +46,7 @@
   padding: 8px 12px;
   font-style: normal;
   font-weight: 600;
-  font-size: 13px;
+  font-size: var(--font-size-small);
   line-height: 17px;
   color: #a1a1aa;
   cursor: pointer;
@@ -71,7 +71,7 @@
   border-radius: 8px;
   font-style: normal;
   font-weight: 600;
-  font-size: 13px;
+  font-size: var(--font-size-small);
   line-height: 17px;
   color: #ffffff;
   cursor: pointer;
@@ -101,7 +101,7 @@
   padding: 8px 12px;
   font-style: normal;
   font-weight: 600;
-  font-size: 13px;
+  font-size: var(--font-size-small);
   line-height: 17px;
   color: #a1a1aa;
 }
@@ -116,7 +116,7 @@
   padding: 8px 12px;
   font-style: normal;
   font-weight: 600;
-  font-size: 13px;
+  font-size: var(--font-size-small);
   line-height: 17px;
   color: #a1a1aa;
   cursor: pointer;
@@ -130,7 +130,6 @@
   }
 
   .icon {
-    font-size: 30px;
     line-height: 24px;
   }
 
@@ -145,7 +144,13 @@
   .userHi,
   .logout {
     padding: 10px 16px;
-    font-size: 14px;
+  }
+
+  .login,
+  .register,
+  .createPost,
+  .logout {
+    font-size: var(--font-size-text);
   }
 
   .userCont {

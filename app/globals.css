@@ -31,6 +31,10 @@ a {
   --desktop: 1920px;
 
   --color-bg: #202024;
+
+  --font-size-small: 13px;
+  --font-size-text: 16px;
+  --font-size-title: 22px;
 }
 
 .layout-wrapper {
@@ -41,12 +45,22 @@ a {
 }
 
 @media (min-width: 768px) {
+  :root {
+    --font-size-small: 14px;
+    --font-size-text: 15px;
+    --font-size-title: 26px;
+  }
+
   .layout-wrapper {
     padding: 0 32px;
   }
 }
 
 @media (min-width: 1440px) {
+  :root {
+    --font-size-title: 30px;
+  }
+
   .layout-wrapper {
     padding: 0 128px;
   }

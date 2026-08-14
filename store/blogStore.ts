@@ -15,6 +15,9 @@ interface Blog {
   isOpenModal: boolean;
   openModal: () => void;
   closeModal: () => void;
+  isOpenEditModal: boolean;
+  openEditModal: () => void;
+  closeEditModal: () => void;
 }
 
 export const useBlogStore = create<Blog>((set) => ({
@@ -31,4 +34,7 @@ export const useBlogStore = create<Blog>((set) => ({
   isOpenModal: false,
   openModal: () => set({ isOpenModal: true }),
   closeModal: () => set({ isOpenModal: false }),
+  isOpenEditModal: false,
+  openEditModal: () => set({ isOpenEditModal: true }),
+  closeEditModal: () => set({ isOpenEditModal: false }),
 }));

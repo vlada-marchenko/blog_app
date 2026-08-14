@@ -7,12 +7,14 @@ import { useAuth } from "../AuthProvider/AuthProvider";
 import { formatDate } from "@/lib/formatDate";
 import CommentForm from "@/components/CommentForm/CommentForm";
 import CommentList from "../CommentList/CommentList";
+import { useBlogStore } from "@/store/blogStore";
+import EditModal from "../EditModal/EditModal";
 
 type PostCardProps = {
   post: Post;
   onBack: () => void;
-  onEdit: (id: string) => void;
   onDelete: (id: string) => void;
+  onEdit: (id: string) => void;
 };
 
 export default function PostCard({
@@ -24,32 +26,45 @@ export default function PostCard({
   const user = useAuth();
   const owner = user?.uid === post.authorId;
   const { mutate } = useComments(post.id);
+  const openEditModal = useBlogStore((state) => state.openEditModal);
 
   return (
     <div className={css.card}>
-      <button
-        type="button"
-        className={css.back}
-        onClick={onBack}
-        aria-label="Back to list"
-      >
-        <svg
-          width="18"
-          height="18"
-          viewBox="0 0 20 20"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
+      <div className={css.header}>
+        <button
+          type="button"
+          className={css.back}
+          onClick={onBack}
+          aria-label="Back to list"
         >
-          <path
-            d="M12 15L7 10L12 5"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-        Back
-      </button>
+          <svg
+            width="18"
+            height="18"
+            viewBox="0 0 20 20"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              d="M12 15L7 10L12 5"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+            />
+          </svg>
+          Back
+        </button>
+        {owner && (
+          <div className={css.buttons}>
+            <button className={css.edit} onClick={() => openEditModal()}>
+              Edit
+            </button>
+            <button className={css.delete} onClick={() => onDelete(post.id)}>
+              Delete
+            </button>
+          </div>
+        )}
+      </div>
       <div className={css.tags}>
         {post.tags?.map((tag) => (
           <span key={tag} className={css.tag}>
@@ -62,22 +77,13 @@ export default function PostCard({
         <span className={css.text}>{post.authorName}</span>
         <span className={css.text}>{formatDate(post.createdAt)}</span>
       </div>
-      {owner && (
-        <div className={css.buttons}>
-          <button className={css.edit} onClick={() => onEdit(post.id)}>
-            Edit
-          </button>
-          <button className={css.delete} onClick={() => onDelete(post.id)}>
-            Delete
-          </button>
-        </div>
-      )}
       <p className={css.description}>{post.content}</p>
       <div className={css.comments}>
         <span className={css.count}>Comments ({post.commentCount})</span>
         {user && <CommentForm postId={post.id} onPosted={mutate} />}
         <CommentList postId={post.id} />
       </div>
+      <EditModal post={post} onEdit={() => onEdit(post.id)} />
     </div>
   );
 }

@@ -2,8 +2,7 @@
 
 import { useForm } from "react-hook-form";
 import css from "./CommentForm.module.css";
-import { useBlogStore } from "@/store/blogStore";
-import Loader from "../Loader/Loader";
+import { toast } from "sonner";
 
 type CommentFormValues = {
   content: string;
@@ -16,12 +15,8 @@ type CommentFormProps = {
 
 export default function CommentForm({ postId, onPosted }: CommentFormProps) {
   const { handleSubmit, reset, register } = useForm<CommentFormValues>();
-  const isLoading = useBlogStore((state) => state.isLoading);
-  const setLoading = useBlogStore((state) => state.setLoading);
 
   const handlePostComment = async ({ content }: CommentFormValues) => {
-    setLoading(true);
-
     try {
       const res = await fetch(`/api/posts/${postId}/comments`, {
         method: "POST",
@@ -30,16 +25,15 @@ export default function CommentForm({ postId, onPosted }: CommentFormProps) {
       });
       if (res.ok) {
         onPosted?.();
+        reset();
+      } else {
+        toast.error("Failed to post comment. Check your input.");
       }
     } catch (err) {
       console.error("Error: ", err);
-    } finally {
-      setLoading(false);
-      reset();
+      toast.error("Failed to post comment.");
     }
   };
-
-  if (isLoading) return <Loader />;
 
   return (
     <form onSubmit={handleSubmit(handlePostComment)} className={css.form}>

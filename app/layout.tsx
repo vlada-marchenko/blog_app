@@ -4,6 +4,7 @@ import "./globals.css";
 import { AuthProvider } from "@/components/AuthProvider/AuthProvider";
 import { Viewport } from "next";
 import Header from "@/components/Header/Header";
+import { Toaster } from "sonner";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -47,6 +48,7 @@ export default function RootLayout({
             {children}
           </div>
         </AuthProvider>
+        <Toaster theme="dark" position="top-right" richColors />
       </body>
     </html>
   );
