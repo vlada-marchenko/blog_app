@@ -12,6 +12,10 @@ export default function BlogPage() {
 
   const selectedPost = posts?.find((post) => post.id === selectedId);
 
+  const handleEdit = () => {
+    mutate();
+  };
+
   const handleDelete = async (id: string) => {
     const res = await fetch(`/api/posts/${id}`, {
       method: "DELETE",
@@ -26,7 +30,7 @@ export default function BlogPage() {
       <PostCard
         post={selectedPost}
         onBack={() => setSelectedId(null)}
-        onEdit={() => {}}
+        onEdit={handleEdit}
         onDelete={handleDelete}
       />
     );

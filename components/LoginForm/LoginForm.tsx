@@ -40,8 +40,8 @@ export default function LoginForm({ onClose }: LoginFormProps) {
       console.error("Error logging in:", error);
       toast.error("Failed to log in. Check your email and password.");
     } finally {
-      setLoading(false);
       onClose();
+      setLoading(false);
     }
   };
 
