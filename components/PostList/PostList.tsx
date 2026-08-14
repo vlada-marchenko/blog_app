@@ -4,6 +4,9 @@ import css from "./PostList.module.css";
 import { usePosts } from "@/hooks/usePosts";
 import Loader from "../Loader/Loader";
 import { formatDate } from "@/lib/formatDate";
+import PostFilters from "../PostFilters/PostFilters";
+import { useMemo } from "react";
+import { useBlogStore } from "@/store/blogStore";
 
 type PostListProps = {
   onSelect: (id: string) => void;
@@ -11,35 +14,64 @@ type PostListProps = {
 
 export default function PostList({ onSelect }: PostListProps) {
   const { data: posts, isLoading, error } = usePosts();
+  const search = useBlogStore((state) => state.searchQuery);
+  const selectedTag = useBlogStore((state) => state.tag);
+
+  const tags = useMemo(() => {
+    const set = new Set<string>();
+    posts?.forEach((post) => post.tags.forEach((tag) => set.add(tag)));
+    return Array.from(set).sort();
+  }, [posts]);
+
+  const filteredPosts = useMemo(() => {
+    const searchQuery = search.toLowerCase().trim();
+    return posts?.filter((post) => {
+      const matchQuery =
+        !searchQuery ||
+        post.title.toLowerCase().includes(searchQuery) ||
+        post.excerpt.toLowerCase().includes(searchQuery) ||
+        post.content.toLowerCase().includes(searchQuery);
+
+      const matchTags = !selectedTag || post.tags.includes(selectedTag);
+      return matchQuery && matchTags;
+    });
+  }, [posts, search, selectedTag]);
 
   if (isLoading) return <Loader />;
   if (error) return <p className={css.state}>Failed to load posts.</p>;
   if (!posts?.length) return <p className={css.state}>No posts yet.</p>;
 
   return (
-    <div className={css.list}>
-      {posts.map((post) => (
-        <div
-          key={post.id}
-          className={css.card}
-          onClick={() => onSelect(post.id)}
-        >
-          <div className={css.tags}>
-            {post.tags?.map((tag) => (
-              <span key={tag} className={css.tag}>
-                {tag}
-              </span>
-            ))}
-          </div>
-          <h3 className={css.title}>{post.title}</h3>
-          <p className={css.excerpt}>{post.excerpt}</p>
-          <div className={css.name}>
-            <span className={css.text}>{post.authorName}</span>
-            <span className={css.text}>{formatDate(post.createdAt)}</span>
-            <span className={css.text}>{post.commentCount} comments</span>
-          </div>
-        </div>
-      ))}
+    <div className={css.container}>
+      <PostFilters tags={tags} />
+      <div className={css.list}>
+        {!filteredPosts?.length ? (
+          <p className={css.state}>No posts match your filters.</p>
+        ) : (
+          filteredPosts?.map((post) => (
+            <div
+              key={post.id}
+              className={css.card}
+              onClick={() => onSelect(post.id)}
+            >
+              <div className={css.tags}>
+                {post.tags?.map((tag) => (
+                  <span key={tag} className={css.tag}>
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <h3 className={css.title}>{post.title}</h3>
+              <p className={css.excerpt}>{post.excerpt}</p>
+              <div className={css.name}>
+                <span className={css.text}>{post.authorName}</span>
+                <span className={css.text}>{formatDate(post.createdAt)}</span>
+                <span className={css.text}>{post.commentCount} comments</span>
+              </div>
+            </div>
+          ))
+        )}
+      </div>
     </div>
   );
 }

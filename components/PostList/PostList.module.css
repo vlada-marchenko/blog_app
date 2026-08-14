@@ -1,3 +1,8 @@
+.container {
+  display: flex;
+  flex-direction: column;
+}
+
 .list {
   display: grid;
   grid-template-columns: 1fr;
@@ -13,16 +18,17 @@
 
 .card {
   display: flex;
+
   flex-direction: column;
-  gap: 8px;
-  padding: 16px;
   border-radius: 8px;
   border: 1px solid #3f3f46;
-  background-color: #27272a;
-  cursor: pointer;
+  gap: 8px;
+  padding: 16px;
   transition:
     border-color 0.15s ease,
     background-color 0.15s ease;
+  background-color: #27272a;
+  cursor: pointer;
 }
 
 .card:hover {
@@ -33,9 +39,9 @@
 .tags {
   display: flex;
   flex-direction: row;
+  flex-wrap: wrap;
   gap: 5px;
   width: fit-content;
-  flex-wrap: wrap;
 }
 
 .tag {
@@ -57,12 +63,12 @@
 .excerpt {
   color: #a1a1aa;
   font-size: var(--font-size-text);
+  line-clamp: 3;
+  overflow: hidden;
   line-height: 1.5;
   display: -webkit-box;
   -webkit-line-clamp: 3;
-  line-clamp: 3;
   -webkit-box-orient: vertical;
-  overflow: hidden;
 }
 
 .name {

@@ -18,6 +18,10 @@ interface Blog {
   isOpenEditModal: boolean;
   openEditModal: () => void;
   closeEditModal: () => void;
+  searchQuery: string;
+  setSearchQuery: (searchQuery: string) => void;
+  tag: string | null;
+  setTag: (tag: string | null) => void;
 }
 
 export const useBlogStore = create<Blog>((set) => ({
@@ -37,4 +41,8 @@ export const useBlogStore = create<Blog>((set) => ({
   isOpenEditModal: false,
   openEditModal: () => set({ isOpenEditModal: true }),
   closeEditModal: () => set({ isOpenEditModal: false }),
+  searchQuery: "",
+  setSearchQuery: (searchQuery) => set({ searchQuery }),
+  tag: null,
+  setTag: (tag) => set({ tag }),
 }));

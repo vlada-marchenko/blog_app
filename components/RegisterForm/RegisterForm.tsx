@@ -1,6 +1,10 @@
 "use client";
 
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import {
+  createUserWithEmailAndPassword,
+  updateProfile,
+  type User,
+} from "firebase/auth";
 import { auth } from "../../lib/firebase/client";
 import { useBlogStore } from "@/store/blogStore";
 import Loader from "../Loader/Loader";
@@ -21,6 +25,7 @@ type RegisterFormProps = {
 export default function RegisterForm({ onClose }: RegisterFormProps) {
   const isLoading = useBlogStore((state) => state.isLoading);
   const setLoading = useBlogStore((state) => state.setLoading);
+  const setUser = useBlogStore((state) => state.setUser);
 
   const handleRegister = async ({
     email,
@@ -37,6 +42,7 @@ export default function RegisterForm({ onClose }: RegisterFormProps) {
       const idToken = await userCredential.user.getIdToken();
 
       await updateProfile(userCredential.user, { displayName: name });
+      setUser({ ...userCredential.user } as User);
 
       await fetch("/api/auth/session", {
         method: "POST",
