@@ -13,7 +13,12 @@ function toPost(id: string, data: FirebaseFirestore.DocumentData): Post {
 
 export async function getPosts(): Promise<Post[]> {
   const data = await adminDb.collection("posts").get();
-  return data.docs.map((doc) => toPost(doc.id, doc.data()));
+  return data.docs
+    .map((doc) => toPost(doc.id, doc.data()))
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
 }
 
 export async function getPost(id: string): Promise<Post | null> {

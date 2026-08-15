@@ -9,14 +9,19 @@ export async function getComments(postId: string): Promise<Comment[]> {
     .collection("comments")
     .get();
 
-  return data.docs.map(
-    (doc) =>
-      ({
-        id: doc.id,
-        ...doc.data(),
-        createdAt: toISOString(doc.data().createdAt),
-      }) as Comment,
-  );
+  return data.docs
+    .map(
+      (doc) =>
+        ({
+          id: doc.id,
+          ...doc.data(),
+          createdAt: toISOString(doc.data().createdAt),
+        }) as Comment,
+    )
+    .sort(
+      (a, b) =>
+        new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
+    );
 }
 
 export async function createComment(postId: string, data: Omit<Comment, "id">) {
