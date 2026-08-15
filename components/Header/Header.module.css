@@ -50,6 +50,9 @@
   line-height: 17px;
   color: #a1a1aa;
   cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .login:hover,
@@ -75,6 +78,9 @@
   line-height: 17px;
   color: #ffffff;
   cursor: pointer;
+  transition:
+    background-color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .createPost:hover,
@@ -120,6 +126,9 @@
   line-height: 17px;
   color: #a1a1aa;
   cursor: pointer;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 @media (min-width: 768px) {

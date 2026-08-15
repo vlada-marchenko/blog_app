@@ -7,6 +7,7 @@ import { formatDate } from "@/lib/formatDate";
 import PostFilters from "../PostFilters/PostFilters";
 import { useMemo } from "react";
 import { useBlogStore } from "@/store/blogStore";
+import { useDebounce } from "@uidotdev/usehooks";
 
 type PostListProps = {
   onSelect: (id: string) => void;
@@ -16,6 +17,7 @@ export default function PostList({ onSelect }: PostListProps) {
   const { data: posts, isLoading, error } = usePosts();
   const search = useBlogStore((state) => state.searchQuery);
   const selectedTag = useBlogStore((state) => state.tag);
+  const debouncedSearch = useDebounce(search, 400);
 
   const tags = useMemo(() => {
     const set = new Set<string>();
@@ -24,7 +26,7 @@ export default function PostList({ onSelect }: PostListProps) {
   }, [posts]);
 
   const filteredPosts = useMemo(() => {
-    const searchQuery = search.toLowerCase().trim();
+    const searchQuery = debouncedSearch.toLowerCase().trim();
     return posts?.filter((post) => {
       const matchQuery =
         !searchQuery ||
@@ -35,7 +37,7 @@ export default function PostList({ onSelect }: PostListProps) {
       const matchTags = !selectedTag || post.tags.includes(selectedTag);
       return matchQuery && matchTags;
     });
-  }, [posts, search, selectedTag]);
+  }, [posts, debouncedSearch, selectedTag]);
 
   if (isLoading) return <Loader />;
   if (error) return <p className={css.state}>Failed to load posts.</p>;

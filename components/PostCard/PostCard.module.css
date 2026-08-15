@@ -30,6 +30,7 @@
   font-size: var(--font-size-small);
   font-weight: 600;
   cursor: pointer;
+  transition: color 0.15s ease;
 }
 
 .back:hover,

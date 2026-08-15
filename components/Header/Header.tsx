@@ -15,7 +15,15 @@ export default function Header() {
   const openAuthModal = useBlogStore((state) => state.open);
   const openModal = useBlogStore((state) => state.openModal);
   const setSelectedId = useBlogStore((state) => state.setSelectedId);
+  const setSearchQuery = useBlogStore((state) => state.setSearchQuery);
+  const setTag = useBlogStore((state) => state.setTag);
   const { mutate } = usePosts();
+
+  function handleGoHome() {
+    setSelectedId(null);
+    setSearchQuery("");
+    setTag(null);
+  }
 
   async function handleLogout() {
     try {
@@ -31,7 +39,7 @@ export default function Header() {
       <button
         type="button"
         className={css.icon}
-        onClick={() => setSelectedId(null)}
+        onClick={handleGoHome}
       >
         Blog.
       </button>

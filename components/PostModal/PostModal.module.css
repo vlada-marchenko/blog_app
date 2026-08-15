@@ -34,6 +34,7 @@
   background: transparent;
   color: #a1a1aa;
   cursor: pointer;
+  transition: color 0.15s ease;
 }
 
 .closeButton:hover,
@@ -65,6 +66,7 @@
   font-size: var(--font-size-text);
   font-family: inherit;
   resize: vertical;
+  transition: border-color 0.15s ease;
 }
 
 .tags,
@@ -97,6 +99,7 @@
   font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
+  transition: background-color 0.15s ease;
 }
 
 .button:hover,

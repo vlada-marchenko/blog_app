@@ -24,11 +24,11 @@
   border: 1px solid #3f3f46;
   gap: 8px;
   padding: 16px;
+  background-color: #27272a;
+  cursor: pointer;
   transition:
     border-color 0.15s ease,
     background-color 0.15s ease;
-  background-color: #27272a;
-  cursor: pointer;
 }
 
 .card:hover {
@@ -88,6 +88,10 @@
   .list {
     grid-template-columns: repeat(2, 1fr);
     gap: 20px;
+  }
+
+  .state {
+    grid-column: 1 / -1;
   }
 
   .card {

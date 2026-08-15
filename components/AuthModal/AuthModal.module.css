@@ -6,6 +6,7 @@
   align-items: center;
   justify-content: center;
   z-index: 1000;
+  padding: 0 20px;
 }
 
 .modal {
@@ -33,6 +34,7 @@
   background: transparent;
   color: #a1a1aa;
   cursor: pointer;
+  transition: color 0.15s ease;
 }
 
 .closeButton:hover,
