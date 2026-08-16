@@ -120,7 +120,7 @@
 
 .description {
   color: #f4f4f5;
-  font-size: var(--font-size-text);
+  font-size: var(--font-size-small);
   line-height: 1.6;
   white-space: pre-wrap;
 }
@@ -150,6 +150,10 @@
   .back,
   .edit,
   .delete {
+    font-size: var(--font-size-text);
+  }
+
+  .description {
     font-size: var(--font-size-text);
   }
 }

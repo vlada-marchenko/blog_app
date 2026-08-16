@@ -43,7 +43,7 @@ next-env.d.ts
 
 PLAN.md
 
-/data
+data/
+scripts/
 
 ARCHITECTURE.md
-TESTING_PLAN.md

@@ -5,7 +5,7 @@ import { usePosts } from "@/hooks/usePosts";
 import Loader from "../Loader/Loader";
 import { formatDate } from "@/lib/formatDate";
 import PostFilters from "../PostFilters/PostFilters";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import { useBlogStore } from "@/store/blogStore";
 import { useDebounce } from "@uidotdev/usehooks";
 
@@ -13,11 +13,22 @@ type PostListProps = {
   onSelect: (id: string) => void;
 };
 
+const ITEMS_PER_PAGE = 6;
+
 export default function PostList({ onSelect }: PostListProps) {
   const { data: posts, isLoading, error } = usePosts();
   const search = useBlogStore((state) => state.searchQuery);
   const selectedTag = useBlogStore((state) => state.tag);
   const debouncedSearch = useDebounce(search, 400);
+  const [page, setPage] = useState(1);
+
+  const filterKey = `${debouncedSearch}_${selectedTag ?? ""}`;
+  const [prevFilterKey, setPrevFilterKey] = useState(filterKey);
+
+  if (prevFilterKey !== filterKey) {
+    setPrevFilterKey(filterKey);
+    setPage(1);
+  }
 
   const tags = useMemo(() => {
     const set = new Set<string>();
@@ -26,6 +37,7 @@ export default function PostList({ onSelect }: PostListProps) {
   }, [posts]);
 
   const filteredPosts = useMemo(() => {
+    if (!posts) return [];
     const searchQuery = debouncedSearch.toLowerCase().trim();
     return posts?.filter((post) => {
       const matchQuery =
@@ -39,6 +51,9 @@ export default function PostList({ onSelect }: PostListProps) {
     });
   }, [posts, debouncedSearch, selectedTag]);
 
+  const visiblePosts = filteredPosts.slice(0, page * ITEMS_PER_PAGE);
+  const hasMore = visiblePosts.length < filteredPosts.length;
+
   if (isLoading) return <Loader />;
   if (error) return <p className={css.state}>Failed to load posts.</p>;
   if (!posts?.length) return <p className={css.state}>No posts yet.</p>;
@@ -50,7 +65,7 @@ export default function PostList({ onSelect }: PostListProps) {
         {!filteredPosts?.length ? (
           <p className={css.state}>No posts match your filters.</p>
         ) : (
-          filteredPosts?.map((post) => (
+          visiblePosts?.map((post) => (
             <div
               key={post.id}
               className={css.card}
@@ -74,6 +89,18 @@ export default function PostList({ onSelect }: PostListProps) {
           ))
         )}
       </div>
+
+      {hasMore && (
+        <div className={css.pagination}>
+          <button
+            type="button"
+            className={css.loadMoreBtn}
+            onClick={() => setPage((prev) => prev + 1)}
+          >
+            Load More
+          </button>
+        </div>
+      )}
     </div>
   );
 }

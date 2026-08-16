@@ -32,6 +32,12 @@
 
 .content {
   color: #f4f4f5;
-  font-size: var(--font-size-text);
+  font-size: var(--font-size-small);
   line-height: 1.5;
+}
+
+@media (min-width: 768px) {
+  .content {
+    font-size: var(--font-size-text);
+  }
 }
