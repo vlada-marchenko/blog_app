@@ -1,36 +1,63 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Blog
 
-## Getting Started
+A full-stack blog app: Next.js (App Router) as both frontend and backend, Firebase for auth, Firestore for data.
 
-First, run the development server:
+## Features
+
+- Email/password registration and login, with an `httpOnly` session cookie for server-side auth checks
+- Create, view, edit, and delete posts — edit/delete restricted to the post's own author, enforced server-side
+- Comment on posts
+- Search and tag-based filtering, with debounced search input
+- "Load More" pagination over the post list
+- Toast notifications for success/error feedback
+
+## Tech stack
+
+- **Next.js 16** (App Router) — frontend and backend in one project
+- **Firebase** — client SDK for auth in the browser, Admin SDK for verifying sessions and all Firestore reads/writes
+- **Firestore** — a `posts` collection, each post with a `comments` subcollection
+- **Zustand** — client-only UI state
+- **SWR** — server data fetching, caching, and revalidation
+- **Zod** — request body validation on every API route
+- **react-hook-form** — all forms
+- **CSS Modules** — scoped component styles
+
+## Project structure
+
+```text
+app/            Pages (app/page.tsx) and API routes (app/api/**/route.ts)
+components/     React components, each with its own *.module.css
+hooks/          SWR hooks (usePosts, usePost, useComments)
+lib/            Firebase client/admin setup, Firestore read/write functions, utilities
+schemas/        Zod validation schemas for API request bodies
+store/          Zustand store (client-only UI state)
+types/          Shared TypeScript types (Post, Comment)
+scripts/        seed-firestore.mjs — populates demo data
+data/seed/      JSON fixtures used by the seed script
+```
+
+## Main components
+
+- **`AuthProvider`** — wraps the app, listens for Firebase auth state changes, keeps the logged-in user in the Zustand store
+- **`Header`** — login/register/logout, "+New Post", and the app logo (which resets filters and returns to the list)
+- **`BlogPage`** — switches between `PostList` and `PostCard` based on the selected post id in the store
+- **`PostList`** / **`PostFilters`** — fetches and renders posts, with search/tag filtering and "Load More" pagination
+- **`PostCard`** — single post view, with comments (`CommentList`, `CommentForm`) and owner-only Edit/Delete
+- **`PostModal`** / **`EditModal`** — create/edit post forms, rendered as portal modals
+- **`AuthModal`** (`LoginForm` / `RegisterForm`) — login/register, also a portal modal
+
+Full details on how these connect — the request flow for every action, and why the architecture is shaped this way — are in [`ARCHITECTURE.md`](./ARCHITECTURE.md).
+
+## Running it
+
+```bash
+npm install
+```
+
+Create `.env.local` with your Firebase config (client `NEXT_PUBLIC_FIREBASE_*` keys, plus `FIREBASE_ADMIN_PROJECT_ID` / `FIREBASE_ADMIN_CLIENT_EMAIL` / `FIREBASE_ADMIN_PRIVATE_KEY` from a service account key).
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Open [http://localhost:3000](http://localhost:3000).

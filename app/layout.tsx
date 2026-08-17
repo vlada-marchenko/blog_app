@@ -9,7 +9,7 @@ import { Toaster } from "sonner";
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"], // 600 is what your snippet needs
+  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
@@ -23,9 +23,10 @@ export const metadata: Metadata = {
   ],
   openGraph: {
     title: "Blog.",
-    description: "A place where you can share your thoughts",
+    description:
+      "A developer-driven blog for sharing technical insights, architecture patterns, and practical guides across modern software engineering",
     siteName: "Blog App",
-    url: "", // add!!!
+    url: "https://blog-app-five-ebon-74.vercel.app/",
     type: "website",
   },
 };

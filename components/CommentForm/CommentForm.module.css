@@ -29,6 +29,10 @@
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
+.input::placeholder {
+  font-size: var(--font-size-small);
+}
+
 .button {
   width: fit-content;
   padding: 10px 16px;
@@ -54,6 +58,10 @@
   }
 
   .button {
+    font-size: var(--font-size-text);
+  }
+
+  .input::placeholder {
     font-size: var(--font-size-text);
   }
 }

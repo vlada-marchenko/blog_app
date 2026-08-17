@@ -96,23 +96,23 @@ export default function PostModal({ onPosted }: PostModalProps) {
           <input
             type="text"
             {...register("tags")}
-            placeholder="Add a tags, separated with ','"
+            placeholder="Add tags, separated with ',' (required)"
             className={`${css.input} ${css.tags}`}
           />
           <input
             type="text"
             {...register("title")}
-            placeholder="Add a title"
+            placeholder="Add title (required)"
             className={`${css.input} ${css.titleInput}`}
           />
           <textarea
             {...register("excerpt")}
-            placeholder="Add a short decription"
+            placeholder="Add short decription (required, 5 symbols min)"
             className={css.input}
           />
           <textarea
             {...register("content")}
-            placeholder="Type what is on your mind"
+            placeholder="Add content (reqiured, 10 symbols min)"
             className={`${css.input} ${css.content}`}
           />
           <button type="submit" className={css.button}>

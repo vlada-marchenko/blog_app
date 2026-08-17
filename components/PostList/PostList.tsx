@@ -13,7 +13,7 @@ type PostListProps = {
   onSelect: (id: string) => void;
 };
 
-const ITEMS_PER_PAGE = 6;
+const ITEMS_PER_PAGE = 12;
 
 export default function PostList({ onSelect }: PostListProps) {
   const { data: posts, isLoading, error } = usePosts();

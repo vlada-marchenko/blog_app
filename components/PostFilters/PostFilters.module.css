@@ -31,6 +31,10 @@
   box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
 }
 
+.input::placeholder {
+  font-size: var(--font-size-small);
+}
+
 .tags {
   display: flex;
   flex-direction: row;
@@ -86,6 +90,10 @@
 
   .tag {
     padding: 6px 14px;
+  }
+
+  .input::placeholder {
+    font-size: var(--font-size-text);
   }
 }
 

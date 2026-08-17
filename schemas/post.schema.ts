@@ -10,7 +10,7 @@ export const postSchema = z.object({
   excerpt: z
     .string("Excerpt is required")
     .trim()
-    .min(10, "Excerpt must be at least 10 characters long")
+    .min(10, "Excerpt must be at least 5 characters long")
     .max(300, "Excerpt cannot exceed 300 characters"),
 
   content: z

@@ -69,6 +69,10 @@
   transition: border-color 0.15s ease;
 }
 
+.input::placeholder {
+  font-size: var(--font-size-small);
+}
+
 .tags,
 .titleInput {
   min-height: 10px;
@@ -109,6 +113,10 @@
 
 @media (min-width: 768px) {
   .button {
+    font-size: var(--font-size-text);
+  }
+
+  .input::placeholder {
     font-size: var(--font-size-text);
   }
 }
