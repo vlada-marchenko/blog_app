@@ -44,7 +44,6 @@ types/          Shared TypeScript types (Post, Comment)
 - **`PostModal`** / **`EditModal`** — create/edit post forms, rendered as portal modals
 - **`AuthModal`** (`LoginForm` / `RegisterForm`) — login/register, also a portal modal
 
-Full details on how these connect — the request flow for every action, and why the architecture is shaped this way — are in [`ARCHITECTURE.md`](./ARCHITECTURE.md).
 
 ## Running it
 
