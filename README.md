@@ -33,7 +33,6 @@ schemas/        Zod validation schemas for API request bodies
 store/          Zustand store (client-only UI state)
 types/          Shared TypeScript types (Post, Comment)
 scripts/        seed-firestore.mjs — populates demo data
-data/seed/      JSON fixtures used by the seed script
 ```
 
 ## Main components
