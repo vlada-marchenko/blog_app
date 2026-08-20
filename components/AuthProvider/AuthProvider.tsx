@@ -1,18 +1,11 @@
 "use client";
 
-import { createContext, useContext, useEffect } from "react";
+import { useEffect } from "react";
 import { auth } from "../../lib/firebase/client";
-import { onAuthStateChanged, User } from "firebase/auth";
+import { onAuthStateChanged } from "firebase/auth";
 import { useBlogStore } from "@/store/blogStore";
 
-type AuthproviderProps = {
-  children: React.ReactNode;
-};
-
-const AuthContext = createContext<User | null>(null);
-
-export function AuthProvider({ children }: AuthproviderProps) {
-  const user = useBlogStore((state) => state.user);
+export function AuthProvider() {
   const setUser = useBlogStore((state) => state.setUser);
 
   useEffect(() => {
@@ -21,9 +14,10 @@ export function AuthProvider({ children }: AuthproviderProps) {
     });
   }, [setUser]);
 
-  return <AuthContext.Provider value={user}>{children}</AuthContext.Provider>;
+  return null;
 }
 
 export function useAuth() {
-  return useContext(AuthContext);
+  const user = useBlogStore((state) => state.user);
+  return user;
 }

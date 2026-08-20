@@ -43,12 +43,11 @@ export default function RootLayout({
   return (
     <html lang="en" className={inter.variable}>
       <body className={inter.variable}>
-        <AuthProvider>
-          <div className="layout-wrapper">
-            <Header />
-            {children}
-          </div>
-        </AuthProvider>
+        <AuthProvider />
+        <div className="layout-wrapper">
+          <Header />
+          {children}
+        </div>
         <Toaster theme="dark" position="top-right" richColors />
       </body>
     </html>
