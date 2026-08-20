@@ -9,24 +9,26 @@ import CommentForm from "@/components/CommentForm/CommentForm";
 import CommentList from "../CommentList/CommentList";
 import { useBlogStore } from "@/store/blogStore";
 import EditModal from "../EditModal/EditModal";
+import { useRouter } from "next/navigation";
 
 type PostCardProps = {
   post: Post;
-  onBack: () => void;
   onDelete: (id: string) => void;
   onEdit: (id: string) => void;
+  onCommentPosted?: () => void;
 };
 
 export default function PostCard({
   post,
-  onBack,
   onDelete,
   onEdit,
+  onCommentPosted,
 }: PostCardProps) {
   const user = useAuth();
   const owner = user?.uid === post.authorId;
-  const { mutate } = useComments(post.id);
-  const openEditModal = useBlogStore((state) => state.openEditModal);
+  const { data: comments, mutate } = useComments(post.id);
+  const openModal = useBlogStore((state) => state.openModal);
+  const router = useRouter();
 
   return (
     <div className={css.card}>
@@ -34,7 +36,7 @@ export default function PostCard({
         <button
           type="button"
           className={css.back}
-          onClick={onBack}
+          onClick={() => router.push("/")}
           aria-label="Back to list"
         >
           <svg
@@ -56,7 +58,7 @@ export default function PostCard({
         </button>
         {owner && (
           <div className={css.buttons}>
-            <button className={css.edit} onClick={() => openEditModal()}>
+            <button className={css.edit} onClick={() => openModal("edit")}>
               Edit
             </button>
             <button className={css.delete} onClick={() => onDelete(post.id)}>
@@ -79,8 +81,18 @@ export default function PostCard({
       </div>
       <p className={css.description}>{post.content}</p>
       <div className={css.comments}>
-        <span className={css.count}>Comments ({post.commentCount})</span>
-        {user && <CommentForm postId={post.id} onPosted={mutate} />}
+        <span className={css.count}>
+          Comments ({comments?.length ?? post.commentCount})
+        </span>
+        {user && (
+          <CommentForm
+            postId={post.id}
+            onPosted={() => {
+              mutate();
+              onCommentPosted?.();
+            }}
+          />
+        )}
         <CommentList postId={post.id} />
       </div>
       <EditModal post={post} onEdit={() => onEdit(post.id)} />

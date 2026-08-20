@@ -1,6 +1,7 @@
 "use client";
 
 import { useForm } from "react-hook-form";
+import type { KeyboardEvent } from "react";
 import css from "./CommentForm.module.css";
 import { toast } from "sonner";
 
@@ -35,12 +36,20 @@ export default function CommentForm({ postId, onPosted }: CommentFormProps) {
     }
   };
 
+  const handleKeySumbit = async (e: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === "Enter") {
+      e.preventDefault();
+      handleSubmit(handlePostComment)();
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit(handlePostComment)} className={css.form}>
       <textarea
         {...register("content")}
         placeholder="Add a comment"
         className={css.input}
+        onKeyDown={handleKeySumbit}
       />
       <button type="submit" className={css.button}>
         Post a comment

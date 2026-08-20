@@ -7,22 +7,21 @@ import PostModal from "../PostModal/PostModal";
 import { useAuth } from "../AuthProvider/AuthProvider";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase/client";
-import { toast } from "sonner";
 import { usePosts } from "@/hooks/usePosts";
+import { useRouter } from "next/navigation";
 
 export default function Header() {
   const user = useAuth();
-  const openAuthModal = useBlogStore((state) => state.open);
+  const router = useRouter();
   const openModal = useBlogStore((state) => state.openModal);
-  const setSelectedId = useBlogStore((state) => state.setSelectedId);
   const setSearchQuery = useBlogStore((state) => state.setSearchQuery);
   const setTag = useBlogStore((state) => state.setTag);
   const { mutate } = usePosts();
 
   function handleGoHome() {
-    setSelectedId(null);
     setSearchQuery("");
     setTag(null);
+    router.push("/");
   }
 
   async function handleLogout() {
@@ -36,11 +35,7 @@ export default function Header() {
 
   return (
     <section className={css.header}>
-      <button
-        type="button"
-        className={css.icon}
-        onClick={handleGoHome}
-      >
+      <button type="button" className={css.icon} onClick={handleGoHome}>
         Blog.
       </button>
 
@@ -50,14 +45,14 @@ export default function Header() {
             <button
               className={css.login}
               type="button"
-              onClick={() => openAuthModal("login")}
+              onClick={() => openModal("auth", "login")}
             >
               Log in
             </button>
             <button
               className={css.register}
               type="button"
-              onClick={() => openAuthModal("register")}
+              onClick={() => openModal("auth", "register")}
             >
               Register
             </button>
@@ -71,7 +66,7 @@ export default function Header() {
           </button>
           <button
             type="button"
-            onClick={() => openModal()}
+            onClick={() => openModal("post")}
             className={css.createPost}
           >
             +New Post

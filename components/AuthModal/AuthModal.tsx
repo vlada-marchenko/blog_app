@@ -5,11 +5,11 @@ import { createPortal } from "react-dom";
 import css from "./AuthModal.module.css";
 
 export default function AuthModal() {
-  const closeAuthModal = useBlogStore((state) => state.close);
-  const isOpenAuthModal = useBlogStore((state) => state.isOpenAuthModal);
+  const closeAuthModal = useBlogStore((state) => state.closeModal);
+  const activeModal = useBlogStore((state) => state.activeModal);
   const modeModal = useBlogStore((state) => state.mode);
 
-  if (!isOpenAuthModal) return null;
+  if (activeModal !== "auth") return null;
 
   return createPortal(
     <div onClick={closeAuthModal} className={css.overlay}>

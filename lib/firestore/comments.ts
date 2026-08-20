@@ -35,7 +35,7 @@ export async function createComment(postId: string, data: Omit<Comment, "id">) {
     .collection("posts")
     .doc(postId)
     .update({
-      commentCount: (await getComments(postId)).length + 1,
+      commentCount: (await getComments(postId)).length,
     });
 
   return comment.id;

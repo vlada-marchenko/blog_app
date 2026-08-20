@@ -23,9 +23,9 @@ export default function PostModal({ onPosted }: PostModalProps) {
   const isLoading = useBlogStore((state) => state.isLoading);
   const setLoading = useBlogStore((state) => state.setLoading);
   const closeModal = useBlogStore((state) => state.closeModal);
-  const isOpenModal = useBlogStore((state) => state.isOpenModal);
+  const activeModal = useBlogStore((state) => state.activeModal);
 
-  if (!isOpenModal) return null;
+  if (activeModal !== "post") return null;
 
   const handlePost = async ({
     title,

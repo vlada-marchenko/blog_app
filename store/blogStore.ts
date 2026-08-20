@@ -1,23 +1,17 @@
 import { create } from "zustand";
 import type { User } from "firebase/auth";
 
+type ModalName = "auth" | "post" | "edit";
+
 interface Blog {
   isLoading: boolean;
   setLoading: (isLoading: boolean) => void;
   user: User | null;
   setUser: (user: User | null) => void;
-  isOpenAuthModal: boolean;
+  activeModal: ModalName | null;
   mode: "login" | "register";
-  open: (mode: "login" | "register") => void;
-  close: () => void;
-  selectedId: string | null;
-  setSelectedId: (selectedId: string | null) => void;
-  isOpenModal: boolean;
-  openModal: () => void;
+  openModal: (modal: ModalName, mode?: "login" | "register") => void;
   closeModal: () => void;
-  isOpenEditModal: boolean;
-  openEditModal: () => void;
-  closeEditModal: () => void;
   searchQuery: string;
   setSearchQuery: (searchQuery: string) => void;
   tag: string | null;
@@ -29,18 +23,11 @@ export const useBlogStore = create<Blog>((set) => ({
   setLoading: (isLoading) => set({ isLoading }),
   user: null,
   setUser: (user) => set({ user }),
-  isOpenAuthModal: false,
+  activeModal: null,
   mode: "login",
-  open: (mode) => set({ isOpenAuthModal: true, mode }),
-  close: () => set({ isOpenAuthModal: false }),
-  selectedId: null,
-  setSelectedId: (selectedId) => set({ selectedId }),
-  isOpenModal: false,
-  openModal: () => set({ isOpenModal: true }),
-  closeModal: () => set({ isOpenModal: false }),
-  isOpenEditModal: false,
-  openEditModal: () => set({ isOpenEditModal: true }),
-  closeEditModal: () => set({ isOpenEditModal: false }),
+  openModal: (modal, mode) =>
+    set({ activeModal: modal, ...(mode ? { mode } : {}) }),
+  closeModal: () => set({ activeModal: null }),
   searchQuery: "",
   setSearchQuery: (searchQuery) => set({ searchQuery }),
   tag: null,

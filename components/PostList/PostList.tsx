@@ -5,17 +5,15 @@ import { usePosts } from "@/hooks/usePosts";
 import Loader from "../Loader/Loader";
 import { formatDate } from "@/lib/formatDate";
 import PostFilters from "../PostFilters/PostFilters";
+import Link from "next/link";
 import { useMemo, useState } from "react";
 import { useBlogStore } from "@/store/blogStore";
 import { useDebounce } from "@uidotdev/usehooks";
-
-type PostListProps = {
-  onSelect: (id: string) => void;
-};
+import { useComments } from "@/hooks/useComments";
 
 const ITEMS_PER_PAGE = 12;
 
-export default function PostList({ onSelect }: PostListProps) {
+export default function PostList() {
   const { data: posts, isLoading, error } = usePosts();
   const search = useBlogStore((state) => state.searchQuery);
   const selectedTag = useBlogStore((state) => state.tag);
@@ -66,11 +64,7 @@ export default function PostList({ onSelect }: PostListProps) {
           <p className={css.state}>No posts match your filters.</p>
         ) : (
           visiblePosts?.map((post) => (
-            <div
-              key={post.id}
-              className={css.card}
-              onClick={() => onSelect(post.id)}
-            >
+            <Link key={post.id} href={`/posts/${post.id}`} className={css.card}>
               <div className={css.tags}>
                 {post.tags?.map((tag) => (
                   <span key={tag} className={css.tag}>
@@ -85,7 +79,7 @@ export default function PostList({ onSelect }: PostListProps) {
                 <span className={css.text}>{formatDate(post.createdAt)}</span>
                 <span className={css.text}>{post.commentCount} comments</span>
               </div>
-            </div>
+            </Link>
           ))
         )}
       </div>

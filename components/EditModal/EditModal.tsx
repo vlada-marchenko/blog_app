@@ -31,10 +31,10 @@ export default function EditModal({ onEdit, post }: EditModalProps) {
   });
   const isLoading = useBlogStore((state) => state.isLoading);
   const setLoading = useBlogStore((state) => state.setLoading);
-  const closeEditModal = useBlogStore((state) => state.closeEditModal);
-  const isOpenEditModal = useBlogStore((state) => state.isOpenEditModal);
+  const closeModal = useBlogStore((state) => state.closeModal);
+  const activeModal = useBlogStore((state) => state.activeModal);
 
-  if (!isOpenEditModal) return null;
+  if (activeModal !== "edit") return null;
 
   const handleEdit = async ({
     title,
@@ -61,7 +61,7 @@ export default function EditModal({ onEdit, post }: EditModalProps) {
       if (res.ok) {
         onEdit?.();
         reset();
-        closeEditModal();
+        closeModal();
         toast.success("Post updated!");
       } else {
         toast.error("Failed to save changes. Check your input.");
@@ -77,12 +77,12 @@ export default function EditModal({ onEdit, post }: EditModalProps) {
   if (isLoading) return <Loader />;
 
   return createPortal(
-    <div onClick={closeEditModal} className={css.overlay}>
+    <div onClick={closeModal} className={css.overlay}>
       <div onClick={(e) => e.stopPropagation()} className={css.modal}>
         <button
           type="button"
           className={css.closeButton}
-          onClick={closeEditModal}
+          onClick={closeModal}
           aria-label="Close"
         >
           <svg
@@ -105,23 +105,23 @@ export default function EditModal({ onEdit, post }: EditModalProps) {
           <input
             type="text"
             {...register("tags")}
-            placeholder="Add a tags, separated with ','"
+            placeholder="Add tags, separated with ',' (required)"
             className={`${css.input} ${css.tags}`}
           />
           <input
             type="text"
             {...register("title")}
-            placeholder="Add a title"
+            placeholder="Add title (required)"
             className={`${css.input} ${css.titleInput}`}
           />
           <textarea
             {...register("excerpt")}
-            placeholder="Add a short decription"
+            placeholder="Add short decription (required, 5 symbols min)"
             className={css.input}
           />
           <textarea
             {...register("content")}
-            placeholder="Type what is on your mind"
+            placeholder="Add content (reqiured, 10 symbols min)"
             className={`${css.input} ${css.content}`}
           />
           <button type="submit" className={css.button}>
